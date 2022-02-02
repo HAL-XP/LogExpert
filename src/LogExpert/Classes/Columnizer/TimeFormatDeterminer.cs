@@ -62,6 +62,7 @@ namespace LogExpert
         protected FormatInfo formatInfo19 = new FormatInfo("dd/MM/yyyy", "HH:mm:ss:fff", new CultureInfo("en-US"));
         protected FormatInfo formatInfo20 = new FormatInfo("yyyy-MM-dd", "HH:mm:ss.ffff", new CultureInfo("en-US"));
         protected FormatInfo formatInfo21 = new FormatInfo("yyyy-MM-dd", "HH:mm:ss,ffff", new CultureInfo("en-US"));
+        protected FormatInfo formatInfo22 = new FormatInfo("yyyy.MM.dd", "HH.mm.ss:fff", new CultureInfo("en-US"));
 
 
         public FormatInfo DetermineDateTimeFormatInfo(string line)
@@ -72,6 +73,14 @@ namespace LogExpert
             }
 
             string temp = line;
+
+            if (temp.Length > 32 && temp[0] == '[' && temp[11] == '-' && temp[24] == ']' && temp[25] == '[') 
+            {
+                // Unreal format first since it's my most common case
+                formatInfo22.IgnoreFirstChar = true;
+                return formatInfo22;
+            }
+
             bool ignoreFirst = false;
 
             // determine if string starts with bracket and remove it
